@@ -1,0 +1,41 @@
+# --- System Files ---
+.DS_Store
+Thumbs.db
+
+# --- Java / Maven (Backend) ---
+target/
+*.class
+.mvn/wrapper/maven-wrapper.jar
+/nbbuild/
+/nbdist/
+
+# --- Node / React (Frontend) ---
+node_modules/
+dist/
+build/
+.vscode/
+
+# --- IDEs (IntelliJ, NetBeans, STS) ---
+.idea/
+*.iml
+*.iws
+*.ipr
+.settings/
+.classpath
+.project
+.factorypath
+.springBeans
+.sts4-cache
+
+# --- SENSITIVE DATA (Bảo mật API Key) ---
+.env
+.env.*
+*.env
+frontend/.env
+frontend/.env.*
+
+# --- Backend Config Files (Chứa key nhạy cảm) ---
+src/main/resources/application.yml
+src/main/resources/application.properties
+src/test/resources/application.yml
+src/test/resources/application.properties
