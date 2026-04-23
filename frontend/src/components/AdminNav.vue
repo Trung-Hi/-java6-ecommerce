@@ -18,6 +18,7 @@ const navItems = [
     { name: 'Tài khoản', path: '/admin/account', icon: 'Users' },
     { name: 'Đơn hàng', path: '/admin/order', icon: 'ClipboardList' },
     { name: 'Doanh thu', path: '/admin/revenue', icon: 'BarChart3' },
+    { name: 'Thống kê', path: '/admin/analytics', icon: 'PieChart' },
     { name: 'Khách VIP', path: '/admin/vip', icon: 'Crown' },
     { name: 'Chat hỗ trợ', path: '/admin/chat', icon: 'MessageCircle' },
 ];
@@ -75,6 +76,10 @@ const handleNavClick = () => {
                         <path d="M18 17V9"></path>
                         <path d="M13 17V5"></path>
                         <path d="M8 17v-3"></path>
+                    </template>
+                    <template v-else-if="item.icon === 'PieChart'">
+                        <path d="M21.21 15.89A10 10 0 1 1 8 2.83"></path>
+                        <path d="M22 12A10 10 0 0 0 12 2v10z"></path>
                     </template>
                     <template v-else-if="item.icon === 'Crown'">
                         <path d="m2 4 3 12h14l3-12-6 7-4-7-4 7-6-7Z"></path>

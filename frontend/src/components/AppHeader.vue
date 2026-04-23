@@ -106,12 +106,20 @@ const openNotification = async (notification) => {
 const hoverNotification = async (notification) => {
     if (notification.read) return;
     
-    notification.read = true;
-    unreadCount.value = Math.max(0, unreadCount.value - 1);
+    const index = notifications.value.findIndex(n => n.id === notification.id);
+    if (index !== -1) {
+        notifications.value[index].read = true;
+        unreadCount.value = Math.max(0, unreadCount.value - 1);
+    }
     
     try {
         await api.notifications.read(notification.id);
     } catch (e) {
+        // Revert on error
+        if (index !== -1) {
+            notifications.value[index].read = false;
+            unreadCount.value = unreadCount.value + 1;
+        }
     }
 };
 

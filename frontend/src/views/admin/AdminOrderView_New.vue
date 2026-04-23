@@ -1,11 +1,11 @@
-﻿<script setup>
+<script setup>
 import { computed, ref, watch } from "vue";
 import { AdminOrderPage } from "@/legacy/pages";
 import AdminLayout from "@/components/AdminLayout.vue";
 import { 
   Search, Filter, RotateCcw, Eye, Trash2, ChevronLeft, ChevronRight,
   Clock, Package, Truck, CheckCircle2, AlertCircle, X, MapPin, 
-  CreditCard, User, Calendar, Receipt, ExternalLink
+  CreditCard, User, Calendar, Receipt, ExternalLink, ShoppingCart, Mail, Phone
 } from 'lucide-vue-next'
 
 const { rows, selected, msg, paging, load, detail: fetchDetail, remove } = AdminOrderPage.setup();

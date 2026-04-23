@@ -20,6 +20,7 @@ import AdminOrderView from "@/views/admin/AdminOrderView.vue";
 import AdminRevenueView from "@/views/admin/AdminRevenueView.vue";
 import AdminVipView from "@/views/admin/AdminVipView.vue";
 import AdminChatView from "@/views/admin/AdminChatView.vue";
+import AdminAnalyticsView from "@/views/admin/AdminAnalyticsView.vue";
 import {api, redirectToLoginByFeature} from "@/api";
 
 export const routes = [
@@ -49,6 +50,7 @@ export const routes = [
     {path: "/admin/revenue/year", component: AdminRevenueView, meta: {title: "admin/revenue/year", template: "admin/revenue.html", revenueView: "year"}},
     {path: "/admin/vip", component: AdminVipView, meta: {title: "admin/vip", template: "admin/vip.html"}},
     {path: "/admin/chat", component: AdminChatView, meta: {title: "admin/chat", template: "admin/order.html"}},
+    {path: "/admin/analytics", component: AdminAnalyticsView, meta: {title: "admin/analytics", template: "admin/analytics.html"}},
     {path: "/", redirect: "/home/index"},
     {path: "/:pathMatch(.*)*", redirect: "/home/index"}
 ];

@@ -111,17 +111,13 @@ const formatVND = (number) => {
   }).format(number);
 };
 
-// Extract digits and minus sign (for negative numbers)
+// Extract digits only (no negative numbers for currency)
 const extractDigits = (str) => {
-  // Keep digits and optional leading minus sign
-  const cleaned = str.replace(/[^\d-]/g, '');
-  // Ensure minus sign is only at the beginning
-  const hasMinus = cleaned.startsWith('-');
-  const digitsOnly = cleaned.replace(/-/g, '');
-  return hasMinus ? '-' + digitsOnly : digitsOnly;
+  // Remove all non-digit characters
+  return str.replace(/[^\d]/g, '');
 };
 
-// Convert string to number (supports negative)
+// Convert string to number
 const digitsToNumber = (digits) => {
   if (!digits) return null;
   const num = parseInt(digits, 10);
@@ -233,12 +229,12 @@ const handleBlur = (e) => {
   emit('blur', e);
 };
 
-// Handle keydown - prevent non-digit characters (allow minus for negative)
+// Handle keydown - prevent non-digit characters
 const handleKeyDown = (e) => {
-  // Allow: backspace, delete, tab, escape, enter, arrows, minus
+  // Allow: backspace, delete, tab, escape, enter, arrows
   const allowedKeys = [
     'Backspace', 'Delete', 'Tab', 'Escape', 'Enter',
-    'ArrowLeft', 'ArrowRight', 'Home', 'End', '-', 'Minus'
+    'ArrowLeft', 'ArrowRight', 'Home', 'End'
   ];
   
   if (allowedKeys.includes(e.key)) {
@@ -250,8 +246,8 @@ const handleKeyDown = (e) => {
     return;
   }
   
-  // Only allow digits and minus sign
-  if (!/[\d-]/.test(e.key)) {
+  // Only allow digits
+  if (!/[\d]/.test(e.key)) {
     e.preventDefault();
   }
 };

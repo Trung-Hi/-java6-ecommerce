@@ -172,17 +172,23 @@ const handleDelete = async (u) => {
             didOpen: () => Swal.showLoading()
         });
         
-        await remove(u.username);
-        
-        Swal.fire({
-            title: "Đã xóa!",
-            text: `Tài khoản đã được vô hiệu hóa.`,
-            icon: "success",
-            timer: 3000,
-            timerProgressBar: true
-        });
-        
-        await load();
+        try {
+            await remove(u.username);
+            Swal.fire({
+                title: "Đã xóa!",
+                text: `Tài khoản đã được vô hiệu hóa.`,
+                icon: "success",
+                timer: 3000,
+                timerProgressBar: true
+            });
+            await load();
+        } catch (error) {
+            Swal.fire({
+                title: "Lỗi!",
+                text: error.message || "Không thể xóa tài khoản.",
+                icon: "error"
+            });
+        }
     }
 };
 
@@ -382,7 +388,6 @@ const save = async () => {
                         <tr>
                             <th>Ảnh</th>
                             <th>Username</th>
-                            <th>Họ tên</th>
                             <th>Email</th>
                             <th>Số điện thoại</th>
                             <th>Địa chỉ</th>
@@ -410,7 +415,6 @@ const save = async () => {
                                 </div>
                             </td>
                             <td class="font-semibold">{{ u.username }}</td>
-                            <td>{{ u.fullname }}</td>
                             <td>{{ u.email }}</td>
                             <td>{{ u.phone }}</td>
                             <td>
@@ -880,13 +884,6 @@ const save = async () => {
 /* ==================== FONT WEIGHT ==================== */
 .font-semibold {
     font-weight: 600;
-}
-
-/* ==================== HIDE FULLNAME COLUMN ==================== */
-/* Hide Họ tên column (3rd column: Ảnh=1, Username=2, Họ tên=3) */
-.data-table thead tr th:nth-child(3),
-.data-table tbody tr td:nth-child(3) {
-    display: none;
 }
 
 /* ==================== CUSTOM HEADER STYLES ==================== */

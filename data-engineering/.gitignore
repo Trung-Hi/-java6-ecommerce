@@ -1,0 +1,68 @@
+# Personal notes
+notes.md
+todo.md
+scratch.md
+
+# Backup files  
+*_backup.*
+*_old.*
+*_v1.*
+*_Backup.*
+*_new.*
+
+# Environment
+.env
+*.env
+config/local_settings.py
+
+# Python
+__pycache__/
+*.pyc
+.pytest_cache/
+*.py[cod]
+*$py.class
+*.so
+.Python
+build/
+develop-eggs/
+dist/
+downloads/
+eggs/
+.eggs/
+lib/
+lib64/
+parts/
+sdist/
+var/
+wheels/
+*.egg-info/
+.installed.cfg
+*.egg
+
+# Airflow
+logs/
+airflow.db
+*.log
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# OS
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# Database
+*.db
+*.sqlite
+*.sqlite3
+
+# Azure
+azure-credentials.json
+
+# Uploads (for main project)
+uploads/

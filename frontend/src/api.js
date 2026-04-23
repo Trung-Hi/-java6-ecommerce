@@ -246,6 +246,12 @@ export const api = {
             vip: () => request("/api/admin/reports/vip"),
             vipExport: () => request("/api/admin/reports/vip/export")
         },
+        analytics: {
+            getRevenueTrend: () => request("/api/admin/analytics/revenue-trend"),
+            getTopProducts: () => request("/api/admin/analytics/top-products"),
+            getOrderStatus: () => request("/api/admin/analytics/order-status"),
+            getSummary: () => request("/api/admin/analytics/summary")
+        },
         chat: {
             conversations: () => request("/api/admin/chat/conversations"),
             messages: (customerId, productId) => request(`/api/admin/chat/messages${toQuery({customerId, productId})}`)

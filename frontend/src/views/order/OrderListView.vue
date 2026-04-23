@@ -97,8 +97,12 @@ const retryPayment = async (order) => {
     repayingOrderId.value = order.id;
     actionMessage.value = "";
     try {
-        // Always go to bank transfer page for existing orders
-        await router.push(`/order/bank-transfer?id=${order.id}`);
+        // Check payment method and route accordingly
+        if (order.paymentMethod === 'PAYOS') {
+            await router.push(`/order/payos-payment?id=${order.id}`);
+        } else {
+            await router.push(`/order/bank-transfer?id=${order.id}`);
+        }
     } catch (e) {
         actionMessage.value = e.message || "Không thể chuyển đến trang thanh toán.";
     } finally {

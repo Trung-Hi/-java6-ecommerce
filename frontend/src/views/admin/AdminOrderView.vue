@@ -104,7 +104,6 @@ const formatDate = (value) => {
     return `${day}/${month}/${year}`;
 };
 const handleCancelPayment = async (orderId) => {
-    console.log('handleCancelPayment called', orderId);
     const result = await Swal.fire({
         icon: 'warning',
         title: 'Xác nhận huỷ thanh toán?',
@@ -120,7 +119,6 @@ const handleCancelPayment = async (orderId) => {
 
     updatingStatus.value = true;
     try {
-        console.log('Calling cancelPayos for', orderId);
         payosCode.value = orderId;
         await cancelPayos();
         await load(activeTab.value);
@@ -131,7 +129,6 @@ const handleCancelPayment = async (orderId) => {
             confirmButtonColor: '#2563eb'
         });
     } catch (e) {
-        console.error('Error in handleCancelPayment', e);
         await Swal.fire({
             icon: 'error',
             title: 'Lỗi',
@@ -144,7 +141,6 @@ const handleCancelPayment = async (orderId) => {
     }
 };
 const handleConfirmDelivery = async (orderId) => {
-    console.log('handleConfirmDelivery called', orderId);
     const result = await Swal.fire({
         icon: 'question',
         title: 'Xác nhận giao hàng?',
@@ -160,7 +156,6 @@ const handleConfirmDelivery = async (orderId) => {
 
     updatingStatus.value = true;
     try {
-        console.log('Calling api.admin.orders.updateStatus for', orderId);
         const order = tabRows.value.find(o => o.id === orderId);
         const currentStatus = order?.status || '';
         const targetStatus = currentStatus === 'PLACED_UNPAID' ? 'SHIPPING_UNPAID' : 'SHIPPING_PAID';
@@ -173,7 +168,6 @@ const handleConfirmDelivery = async (orderId) => {
             confirmButtonColor: '#2563eb'
         });
     } catch (e) {
-        console.error('Error in handleConfirmDelivery', e);
         await Swal.fire({
             icon: 'error',
             title: 'Lỗi',
@@ -342,9 +336,7 @@ const fetchRoadRoute = async (start, dest) => {
             .filter((point) => Number.isFinite(point[0]) && Number.isFinite(point[1]));
     } catch (e) {
         if (e.name === 'AbortError') {
-            console.warn('fetchRoadRoute timeout');
         } else {
-            console.error('fetchRoadRoute error:', e);
         }
         // Fallback: return empty array if routing fails
         return [];
