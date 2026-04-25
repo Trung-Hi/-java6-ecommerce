@@ -12,6 +12,8 @@ import com.poly.ASM.service.product.ProductService;
 import com.poly.ASM.service.product.ProductSizeService;
 import com.poly.ASM.service.product.SizeService;
 import lombok.RequiredArgsConstructor;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -40,6 +42,8 @@ import java.util.HashMap;
 @RequestMapping("/api/admin/products")
 @RequiredArgsConstructor
 public class ProductAController {
+
+    private static final Logger logger = LoggerFactory.getLogger(ProductAController.class);
 
     private static final int PAGE_SIZE = 5;
 
@@ -143,8 +147,7 @@ public class ProductAController {
                     productSizes.add(productSize);
                 }
             } catch (Exception e) {
-                System.err.println("Failed to parse variants JSON: " + e.getMessage());
-                e.printStackTrace();
+                logger.error("Failed to parse variants JSON: {}", e.getMessage(), e);
             }
         }
 
@@ -235,26 +238,26 @@ public class ProductAController {
                         return qty != null ? ((Number) qty).intValue() : 0;
                     })
                     .sum();
-                System.out.println("Update using variants JSON, calculated total: " + finalQuantity);
+                logger.debug("Update using variants JSON, calculated total: {}", finalQuantity);
             } catch (Exception e) {
-                System.err.println("Failed to parse variants JSON in update: " + e.getMessage());
+                logger.error("Failed to parse variants JSON in update: {}", e.getMessage(), e);
             }
         }
         
         // If variants parsing failed or not provided, use explicit quantity
         if (finalQuantity == 0 && quantity != null && quantity > 0) {
             finalQuantity = quantity;
-            System.out.println("Update using frontend quantity: " + finalQuantity);
+            logger.debug("Update using frontend quantity: {}", finalQuantity);
         } else if (finalQuantity == 0 && totalQuantity != null && totalQuantity > 0) {
             finalQuantity = totalQuantity;
-            System.out.println("Update using frontend totalQuantity: " + finalQuantity);
+            logger.debug("Update using frontend totalQuantity: {}", finalQuantity);
         }
         
         // If still 0, fallback to legacy sizeQtyMap
         if (finalQuantity == 0) {
             Map<Integer, Integer> sizeQtyMap = parseSizeQuantities(params);
             finalQuantity = sizeQtyMap.values().stream().mapToInt(Integer::intValue).sum();
-            System.out.println("Update using legacy sizeQtyMap, total: " + finalQuantity);
+            logger.debug("Update using legacy sizeQtyMap, total: {}", finalQuantity);
         }
         
         Product product = productService.findById(id)
@@ -378,7 +381,7 @@ public class ProductAController {
         
         // Delete all old product sizes for this product
         productSizeService.deleteByProductId(productId);
-        System.out.println("Deleted old product_sizes for product " + productId);
+        logger.debug("Deleted old product_sizes for product {}", productId);
         
         // Save new variants as product sizes
         int savedCount = 0;
@@ -404,7 +407,7 @@ public class ProductAController {
             Size size = sizeByName.get(sizeName);
             // Auto-create size if not exists
             if (size == null) {
-                System.out.println("Size not found: " + sizeName + " - Creating new size...");
+                logger.debug("Size not found: {} - Creating new size...", sizeName);
                 Size newSize = new Size();
                 newSize.setName(sizeName);
                 size = sizeService.save(newSize);
@@ -420,6 +423,6 @@ public class ProductAController {
             productSizeService.save(ps);
             savedCount++;
         }
-        System.out.println("Synced " + savedCount + " variants, created " + createdCount + " new sizes for product " + productId);
+        logger.debug("Synced {} variants, created {} new sizes for product {}", savedCount, createdCount, productId);
     }
 }

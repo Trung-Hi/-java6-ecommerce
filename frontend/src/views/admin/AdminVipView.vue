@@ -288,12 +288,12 @@ const closeLevelModal = () => {
 
 // Points history function
 const viewPointsHistory = async (userId, userName) => {
-    console.log('viewPointsHistory called', userId, userName);
+    if (import.meta.env.DEV) console.log('viewPointsHistory called', userId, userName);
     historyUserId.value = userId;
     historyUserName.value = `${userName} · @${userId}`;
     historyLoading.value = true;
     historyModalOpen.value = true;
-    console.log('historyModalOpen set to true', historyModalOpen.value);
+    if (import.meta.env.DEV) console.log('historyModalOpen set to true', historyModalOpen.value);
 
     try {
         // Mock data - replace with actual API call

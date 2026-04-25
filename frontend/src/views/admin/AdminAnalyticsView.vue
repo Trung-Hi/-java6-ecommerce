@@ -38,7 +38,7 @@ const loadRevenueTrend = async () => {
     try {
         const response = await api.admin.analytics.getRevenueTrend();
         revenueTrend.value = response.data;
-        console.log("Revenue trend data:", revenueTrend.value);
+        if (import.meta.env.DEV) console.log("Revenue trend data:", revenueTrend.value);
         setTimeout(() => renderRevenueChart(), 100);
     } catch (err) {
         console.error("Error loading revenue trend:", err);
@@ -50,7 +50,7 @@ const loadTopProducts = async () => {
     try {
         const response = await api.admin.analytics.getTopProducts();
         topProducts.value = response.data;
-        console.log("Top products data:", topProducts.value);
+        if (import.meta.env.DEV) console.log("Top products data:", topProducts.value);
         setTimeout(() => renderProductChart(), 100);
     } catch (err) {
         console.error("Error loading top products:", err);
@@ -62,7 +62,7 @@ const loadOrderStatus = async () => {
     try {
         const response = await api.admin.analytics.getOrderStatus();
         orderStatus.value = response.data;
-        console.log("Order status data:", orderStatus.value);
+        if (import.meta.env.DEV) console.log("Order status data:", orderStatus.value);
         setTimeout(() => renderStatusChart(), 100);
     } catch (err) {
         console.error("Error loading order status:", err);

@@ -978,7 +978,7 @@ const AdminProductPage = {
                 payload.variants = JSON.stringify(form.variants);
                 payload.totalQuantity = String(totalQty);
                 payload.quantity = String(totalQty);
-                console.log('Saving with variants:', form.variants, 'totalQty:', totalQty);
+                if (import.meta.env.DEV) console.log('Saving with variants:', form.variants, 'totalQty:', totalQty);
             } else {
                 // PRIORITY 2: Fallback to legacy sizeQtyMap
                 state.sizes.forEach((size) => {
@@ -988,17 +988,19 @@ const AdminProductPage = {
                     payload[`size_${size.id}`] = String(qty);
                     totalQty += qty;
                 });
-                console.log('Saving with legacy sizes, totalQty:', totalQty);
+                if (import.meta.env.DEV) console.log('Saving with legacy sizes, totalQty:', totalQty);
             }
             
             payload.quantity = totalQty;
             form.quantity = totalQty;
             
             // DEBUG: Log final payload
-            console.log('=== FINAL PAYLOAD ===');
-            Object.entries(payload).forEach(([key, value]) => {
-                console.log(`${key}: ${value}`);
-            });
+            if (import.meta.env.DEV) {
+                console.log('=== FINAL PAYLOAD ===');
+                Object.entries(payload).forEach(([key, value]) => {
+                    console.log(`${key}: ${value}`);
+                });
+            }
             
             if (editing.value) {
                 await api.admin.products.update(form.id, payload);

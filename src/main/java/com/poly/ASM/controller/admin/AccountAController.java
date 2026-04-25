@@ -12,6 +12,8 @@ import com.poly.ASM.service.auth.AuthService;
 import com.poly.ASM.service.auth.AuthProviderService;
 import com.poly.ASM.service.email.EmailService;
 import lombok.RequiredArgsConstructor;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -38,6 +40,8 @@ import java.util.HashMap;
 @RequestMapping("/api/admin/accounts")
 @RequiredArgsConstructor
 public class AccountAController {
+
+    private static final Logger logger = LoggerFactory.getLogger(AccountAController.class);
 
     private final AccountService accountService;
     private final RoleService roleService;
@@ -258,11 +262,11 @@ public class AccountAController {
             emailService.sendTemporaryPasswordEmail(account.getEmail(), tempPassword, username);
         } catch (Exception e) {
             // Log error but don't fail the request - password is already changed
-            System.out.println("[WARNING] Failed to send email to " + account.getEmail() + ": " + e.getMessage());
+            logger.warn("Failed to send email to {}: {}", account.getEmail(), e.getMessage());
         }
 
         // Log the action
-        System.out.println("[SECURITY] Password reset for user: " + username + " by admin: " + currentUser.getUsername());
+        logger.info("Password reset for user: {} by admin: {}", username, currentUser.getUsername());
 
         // Return the temporary password to admin (shown once)
         Map<String, Object> data = new HashMap<>();
